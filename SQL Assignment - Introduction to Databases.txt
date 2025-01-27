@@ -1,0 +1,175 @@
+
+## 1. Introduction to Databases
+
+### HW 1.1
+select * from customers;
+
+customer_id | first_name | last_name  | email                   | phone_number | registration_date | birth_date  | loyalty_points
+1           | John       | Doe        | john.doe@email.com      | 555-0101     | 2023-01-15        | 1985-05-20  | 100
+2           | Jane       | Smith      | jane.smith@email.com    | 555-0102     | 2023-02-20        | 1990-08-15  | 150
+3           | Robert     | Johnson    | robert.johnson@email.com| 555-0103     | 2023-03-10        | 1978-11-30  | 75
+4           | Emily      | Brown      | emily.brown@email.com   | 555-0104     | 2023-04-05        | 1995-02-10  | 200
+5           | Michael    | Davis      | michael.davis@email.com | 555-0105     | 2023-05-12        | 1982-07-22  | 50
+6           | Sarah      | Wilson     | sarah.wilson@email.com  | 555-0106     | 2023-06-18        | 1992-09-08  | 120
+7           | David      | Taylor     | david.taylor@email.com  | 555-0107     | 2023-07-25        | 1988-03-17  | 90
+8           | Lisa       | Anderson   | lisa.anderson@email.com | 555-0108     | 2023-08-30        | 1975-12-05  | 180
+
+List of columns:
+customer_id, first_name, last_name, email, phone_number, registration_date, birth_date, loyalty_points
+
+
+## 2. SQL Select Statement and Distinct Keyword
+
+### HW 2.1
+select * from products;
+
+product_id | product_name         | category_id | unit_price | stock_quantity | supplier_id
+1          | Smartphone           | 1           | 499.99     | 50             | 1
+2          | Laptop               | 1           | 899.99     | 30             | 1
+3          | Mystery Novel        | 2           | 15.99      | 100            | 2
+4          | Gardening Tools Set  | 3           | 49.99      | 20             | 3
+5          | LEGO Set             | 4           | 39.99      | 40             | 4
+6          | T-shirt              | 5           | 19.99      | 200            | 5
+7          | Headphones           | 1           | 79.99      | 60             | 6
+8          | Cookbook             | 2           | 24.99      | 80             | 2
+9          | Blender              | 3           | 69.99      | 25             | 8
+10         | Action Figure        | 4           | 14.99      | 70             | 4
+11         | Generic Item         |             | 15.00      | 2              | 
+
+### HW 2.2
+select product_name, unit_price from products;
+
+ product_name.       | unit_price
+ Smartphone          | 499.99    
+ Laptop              | 899.99    
+ Mystery Novel       | 15.99     
+ Gardening Tools Set | 49.99     
+ LEGO Set            | 39.99     
+ T-shirt             | 19.99     
+ Headphones          | 79.99     
+ Cookbook            | 24.99     
+ Blender             | 69.99     
+ Action Figure       | 14.99     
+ Generic Item        | 15.00     
+
+### HW 2.3
+select distinct category_id from products;
+
+category_id
+1
+2
+3
+4
+5
+
+
+## 3. Filtering Data with the Where Clause
+
+### HW 3.1
+select product_name, unit_price from products where unit_price > 100;
+
+ product_name | unit_price
+ Smartphone     | 499.99    
+ Laptop         | 899.99    
+
+### HW 3.2
+select first_name, last_name, email from customers where last_name = 'Smith';
+
+ first_name   | last_name | email               
+ Jane         | Smith     | jane.smith@email.com
+
+
+## 4. SQL Order By Clause
+
+### HW 4.1
+select product_name, unit_price from products order by unit_price;
+
+ product_name        | unit_price
+ Action Figure       | 14.99     
+ Generic Item        | 15.00     
+ Mystery Novel       | 15.99     
+ T-shirt             | 19.99     
+ Cookbook            | 24.99     
+ LEGO Set            | 39.99     
+ Gardening Tools Set | 49.99     
+ Blender             | 69.99     
+ Headphones          | 79.99     
+ Smartphone          | 499.99    
+ Laptop              | 899.99 
+
+### HW 4.2
+select order_id, total_amount from orders order by total_amount desc;
+
+ order_id   | total_amount
+ 3          | 949.98      
+ 7          | 924.98      
+ 10         | 579.98      
+ 1          | 539.98      
+ 8          | 499.99      
+ 11         | 204.95      
+ 5          | 189.97      
+ 9          | 114.97      
+ 2          | 79.98       
+ 12         | 69.99       
+ 6          | 59.98       
+ 4          | 29.98       
+
+
+## 5. Handling Null Values in SQL
+
+### HW 5.1
+select product_name, category_id from products where category_id is null;
+
+ product_name   | category_id
+ Generic Item   | null           
+
+### HW 5.2
+select first_name, last_name, phone_number from customers where phone_number is not null;
+
+ first_name   | last_name | phone_number
+ John         | Doe       | 555-0101    
+ Jane         | Smith     | 555-0102    
+ Robert       | Johnson   | 555-0103    
+ Emily        | Brown     | 555-0104    
+ Michael      | Davis     | 555-0105    
+ Sarah        | Wilson    | 555-0106    
+ David        | Taylor    | 555-0107    
+ Lisa         | Anderson  | 555-0108    
+
+
+## 6. Data Types in SQL
+
+### HW 6.1
+select product_name, unit_price, stock_quantity, (unit_price * stock_quantity) as inventory_value from products;
+
+ product_name        | unit_price | stock_quantity | inventory_value
+ Smartphone          | 499.99     | 50             | 24999.50       
+ Laptop              | 899.99     | 30             | 26999.70       
+ Mystery Novel       | 15.99      | 100            | 1599.00        
+ Gardening Tools Set | 49.99      | 20             | 999.80         
+ LEGO Set            | 39.99      | 40             | 1599.60        
+ T-shirt             | 19.99      | 200            | 3998.00        
+ Headphones          | 79.99      | 60             | 4799.40        
+ Cookbook            | 24.99      | 80             | 1999.20        
+ Blender             | 69.99      | 25             | 1749.75        
+ Action Figure       | 14.99      | 70             | 1049.30        
+ Generic Item        | 15.00      | 2              | 30.00          
+
+### HW 6.2
+select order_id, order_date from orders where year(order_date) = 2023;
+
+ order_id   | order_date
+ 1          | 2023-06-01
+ 2          | 2023-06-15
+ 3          | 2023-07-02
+ 4          | 2023-07-20
+ 5          | 2023-08-05
+ 6          | 2023-08-10
+ 7          | 2023-08-15
+ 8          | 2023-08-20
+ 9          | 2023-09-01
+ 10         | 2023-09-10
+ 11         | 2023-09-15
+ 12         | 2023-09-20
+
+###EOF
