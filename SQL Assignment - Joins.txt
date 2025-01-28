@@ -1,0 +1,170 @@
+## 16. Joins Introduction: Inner Join
+
+### HW 16.1
+select order_id, order_date, concat(first_name, ' ', last_name) as customer_name 
+from orders o
+inner join customers c on c.customer_id=o.customer_id;
+
+ order_id | order_date | customer_name 
+ 1        | 2023-06-01 | John Doe      
+ 2        | 2023-06-15 | Jane Smith    
+ 3        | 2023-07-02 | Robert Johnson
+ 4        | 2023-07-20 | Emily Brown   
+ 5        | 2023-08-05 | Michael Davis 
+ 6        | 2023-08-10 | John Doe      
+ 7        | 2023-08-15 | Jane Smith    
+ 8        | 2023-08-20 | Robert Johnson
+ 9        | 2023-09-01 | Sarah Wilson  
+ 10       | 2023-09-10 | David Taylor  
+ 11       | 2023-09-15 | Lisa Anderson 
+ 12       | 2023-09-20 | Emily Brown   
+
+### HW 16.2
+select o.order_id, product_name, quantity, concat(first_name, ' ', last_name) as customer_name
+from orders o
+inner join customers c on c.customer_id=o.customer_id
+inner join orderitems it on it.order_id=o.order_id
+inner join products p on it.product_id=p.product_id;
+
+
+ order_id | product_name        | quantity | customer_name 
+ 1        | Smartphone          | 1        | John Doe      
+ 1        | T-shirt             | 2        | John Doe      
+ 2        | LEGO Set            | 2        | Jane Smith    
+ 3        | Laptop              | 1        | Robert Johnson
+ 3        | Mystery Novel       | 1        | Robert Johnson
+ 3        | Headphones          | 1        | Robert Johnson
+ 4        | Mystery Novel       | 2        | Emily Brown   
+ 5        | Blender             | 1        | Michael Davis 
+ 5        | T-shirt             | 5        | Michael Davis 
+ 5        | Action Figure       | 2        | Michael Davis 
+ 6        | Gardening Tools Set | 1        | John Doe      
+ 6        | Mystery Novel       | 1        | John Doe      
+ 7        | Laptop              | 1        | Jane Smith    
+ 7        | Headphones          | 1        | Jane Smith    
+ 8        | Smartphone          | 1        | Robert Johnson
+ 9        | Cookbook            | 1        | Sarah Wilson  
+ 9        | LEGO Set            | 2        | Sarah Wilson  
+ 9        | Mystery Novel       | 1        | Sarah Wilson  
+ 10       | Smartphone          | 1        | David Taylor  
+ 10       | Blender             | 1        | David Taylor  
+ 11       | T-shirt             | 3        | Lisa Anderson 
+ 11       | Cookbook            | 2        | Lisa Anderson 
+ 11       | Action Figure       | 5        | Lisa Anderson 
+ 12       | Blender             | 1        | Emily Brown   
+
+
+## 17. Left, Right, and Outer Joins in SQL
+
+### HW 17.1
+select c.customer_id, concat(first_name, ' ', last_name) as customer_name, order_id, order_date 
+from customers c
+left join orders o on c.customer_id=o.customer_id;
+
+ customer_id | customer_name  | order_id | order_date
+ 1           | John Doe       | 1        | 2023-06-01
+ 1           | John Doe       | 6        | 2023-08-10
+ 2           | Jane Smith     | 2        | 2023-06-15
+ 2           | Jane Smith     | 7        | 2023-08-15
+ 3           | Robert Johnson | 3        | 2023-07-02
+ 3           | Robert Johnson | 8        | 2023-08-20
+ 4           | Emily Brown    | 4        | 2023-07-20
+ 4           | Emily Brown    | 12       | 2023-09-20
+ 5           | Michael Davis  | 5        | 2023-08-05
+ 6           | Sarah Wilson   | 9        | 2023-09-01
+ 7           | David Taylor   | 10       | 2023-09-10
+ 8           | Lisa Anderson  | 11       | 2023-09-15
+
+
+### HW 17.2
+select p.product_id, product_name, order_id, quantity from orderitems it
+right join products p on p.product_id=it.product_id;
+
+ product_id | product_name        | order_id | quantity
+ 1          | Smartphone          | 1        | 1       
+ 1          | Smartphone          | 8        | 1       
+ 1          | Smartphone          | 10       | 1       
+ 2          | Laptop              | 3        | 1       
+ 2          | Laptop              | 7        | 1       
+ 3          | Mystery Novel       | 3        | 1       
+ 3          | Mystery Novel       | 4        | 2       
+ 3          | Mystery Novel       | 6        | 1       
+ 3          | Mystery Novel       | 9        | 1       
+ 4          | Gardening Tools Set | 6        | 1       
+ 5          | LEGO Set            | 2        | 2       
+ 5          | LEGO Set            | 9        | 2       
+ 6          | T-shirt             | 1        | 2       
+ 6          | T-shirt             | 5        | 5       
+ 6          | T-shirt             | 11       | 3       
+ 7          | Headphones          | 3        | 1       
+ 7          | Headphones          | 7        | 1       
+ 8          | Cookbook            | 9        | 1       
+ 8          | Cookbook            | 11       | 2       
+ 9          | Blender             | 5        | 1       
+ 9          | Blender             | 10       | 1       
+ 9          | Blender             | 12       | 1       
+ 10         | Action Figure       | 5        | 2       
+ 10         | Action Figure       | 11       | 5       
+ 11         | Generic Item        |          |         
+
+### HW 17.3
+select c.customer_id, concat(first_name, ' ', last_name) as customer_name, order_id, order_date
+from customers c
+left join orders o on c.customer_id=o.customer_id
+union
+select c.customer_id, concat(first_name, ' ', last_name) as customer_name, order_id, order_date
+from customers c
+right join orders o on c.customer_id=o.customer_id;
+
+
+ customer_id | customer_name  | order_id | order_date
+ 1           | John Doe       | 1        | 2023-06-01
+ 1           | John Doe       | 6        | 2023-08-10
+ 2           | Jane Smith     | 2        | 2023-06-15
+ 2           | Jane Smith     | 7        | 2023-08-15
+ 3           | Robert Johnson | 3        | 2023-07-02
+ 3           | Robert Johnson | 8        | 2023-08-20
+ 4           | Emily Brown    | 4        | 2023-07-20
+ 4           | Emily Brown    | 12       | 2023-09-20
+ 5           | Michael Davis  | 5        | 2023-08-05
+ 6           | Sarah Wilson   | 9        | 2023-09-01
+ 7           | David Taylor   | 10       | 2023-09-10
+ 8           | Lisa Anderson  | 11       | 2023-09-15
+
+
+## 18. Self Joins in SQL
+
+### HW 18.1
+select 
+e.id as employee_id, 
+concat(e.FirstName, ' ', e.LastName) as employee_name,
+concat(m.FirstName, ' ', m.LastName) as manager_name
+from person e
+left join person m on e.managerId=m.id;
+
+ employee_id | employee_name | manager_name
+ 12          | Adam joke     | jon jerry   
+ 13          | Alec jam      | jon jerry   
+ 14          | Jane jam      | jon jerry   
+ 15          | Jane jam      | jon jerry   
+ 4           | Ali Kir       | Mary kim    
+ 5           | Mike josh     | Mary kim    
+ 10A         | sara zam      | Mary kim    
+ 7           | sara jam      | Mary kim    
+ 10          | Gul jam       | Mary kim    
+ 8           | MJ jam        | Mary kim    
+ 9           | Alec jam      | Mary kim    
+ 11          | Alec jam      | Mary kim    
+ 16          | zam jam       | Ali Kir     
+ 17          | Alina jam     | Ali Kir     
+ 18          | Azizi jam     | Ali Kir     
+ 19          | Afzal jam     | Ali Kir     
+ 20          | Gulab jam     | Ali Kir     
+ 2           | jon jerry     | null        
+ 3           | Mary kim      | null        
+ 105         | asghar Nazir  | null        
+ 106         | Asghar Nazir  | null        
+ 109         | Asghar Nazir  | null        
+
+
+###EOF
