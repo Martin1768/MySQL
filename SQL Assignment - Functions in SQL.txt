@@ -92,34 +92,26 @@ group by category_id having product_count > 2 and avg_price > 100;
 ## 15. Subqueries in SQL
 
 ### HW 15.1
+select product_id, unit_price 
+from products 
+where unit_price > (select avg(unit_price) from products);
 
+ product_id | unit_price
+ 1          | 499.99    
+ 2          | 899.99    
 
 
 ### HW 15.2
+select customer_id, order_id, total_amount from orders o
+where total_amount > (select avg(total_amount) from orders where customer_id=o.customer_id);
 
-
+ customer_id | order_id | total_amount
+ 1           | 1        | 539.98      
+ 3           | 3        | 949.98      
+ 2           | 7        | 924.98      
+ 4           | 12       | 69.99       
 
 
 
 
 ###EOF
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
