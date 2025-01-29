@@ -1,0 +1,98 @@
+## 19. Set Operators in SQL
+
+### HW 19.1
+select phone_number from customers
+union
+select phone_number from suppliers;
+
+ phone_number
+ 555-0101    
+ 555-0102    
+ 555-0103    
+ 555-0104    
+ 555-0105    
+ 555-0106    
+ 555-0107    
+ 555-0108    
+ 555-0201    
+ 555-0202    
+ 555-0203    
+ 555-0204    
+ 555-0205    
+ 555-0206    
+ 555-0207    
+ 555-0208    
+
+
+### HW 19.2
+select product_name from products
+union all
+select product_name from discontinuedproducts;
+
+product_name
+Smartphone
+Laptop
+Mystery Novel
+Gardening Tools Set
+LEGO Set
+T-shirt
+Headphones
+Cookbook
+Blender
+Action Figure
+Generic Item
+Old Phone Model
+Outdated Tablet
+Classic Book Set
+Vintage Toy Car
+
+### HW 19.3
+select customer_id, first_name, last_name from customers c
+where exists (
+select 1 from productreviews pr
+where c.customer_id=pr.customer_id );
+
+ customer_id | first_name | last_name
+ 1           | John       | Doe      
+ 3           | Robert     | Johnson  
+ 4           | Emily      | Brown    
+ 5           | Michael    | Davis    
+
+
+### HW 19.4
+select c.customer_id, first_name, last_name from customers c
+where (c.customer_id) not in (select pr.customer_id from productreviews pr);
+
+ customer_id | first_name | last_name
+ 2           | Jane       | Smith    
+ 6           | Sarah      | Wilson   
+ 7           | David      | Taylor   
+ 8           | Lisa       | Anderson 
+
+
+### HW 19.5
+select 'Supplier' as type, contact_email as email, phone_number from suppliers
+union all
+select 'Customer', email, phone_number from customers 
+order by type desc, email asc, phone_number asc;
+
+ type     | email                       | phone_number
+ Supplier | e.black@homestyle.com       | 555-0208    
+ Supplier | j.smith@techcore.com        | 555-0201    
+ Supplier | j.wilson@fashionforward.com | 555-0205    
+ Supplier | l.lee@globalelec.com        | 555-0206    
+ Supplier | m.johnson@bookworld.com     | 555-0202    
+ Supplier | m.white@litclassics.com     | 555-0207    
+ Supplier | r.brown@greenthumb.com      | 555-0203    
+ Supplier | s.davis@toymasters.com      | 555-0204    
+ Customer | david.taylor@email.com      | 555-0107    
+ Customer | emily.brown@email.com       | 555-0104    
+ Customer | jane.smith@email.com        | 555-0102    
+ Customer | john.doe@email.com          | 555-0101    
+ Customer | lisa.anderson@email.com     | 555-0108    
+ Customer | michael.davis@email.com     | 555-0105    
+ Customer | robert.johnson@email.com    | 555-0103    
+ Customer | sarah.wilson@email.com      | 555-0106    
+
+
+###EOF
