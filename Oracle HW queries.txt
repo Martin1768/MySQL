@@ -1,0 +1,139 @@
+1. How can you display all the data in Departments table?
+select * from hr.departments
+
+2. How can you display department id from Employees table?
+select EMPLOYEE_ID from hr.employees
+
+3. How can you display all the phone numbers from Employees?select PHONE_NUMBER from hr.employees
+
+4. How can you display last name and hire date for all Employees?
+select last_name, hire_date from hr.employees
+
+5. Please display department id and department name
+select department_id, department_name from hr.departments
+
+6. How can we find the salary of employee 120?
+select salary from hr.employees where employee_id=120
+
+7. How can you display unique job ids in the company from the employees table
+select distinct job_id from hr.employees
+
+8. How to display first name, job id, salary for all employees who earn less than or equal to 10000 monthly?
+select first_name, job_id, salary from hr.employees where salary <= 10000
+
+9. How to display all the information for Stock Clerks
+select * from hr.employees e inner join hr.jobs j on e.job_id=j.job_id where e.job_id='ST_CLERK'
+
+10. How to display information about employees who report to the manager 114
+select * from hr.employees where manager_id=114
+
+11. How to figure out first name, last name, department id of employeesthat do not get commission and display last names in alphabetical order
+select first_name, last_name, department_id from hr.employees where commission_pct is null order by last_name
+
+12. How to display all the information for IT Programmers showing the highest paying employee on top?
+select * from hr.employees e inner join hr.jobs j on e.job_id=j.job_id where e.job_id='IT_PROG' order by salary desc
+
+13. How to display all employees who was hired on June 17th 2003
+select * from hr.employees where hire_date = TO_DATE('2003-06-17', 'YYYY-MM-DD')
+
+14. How to display first name, Salary, and job id of employees who earn more than or equal to 4000 or working as IT programmers
+select first_name, salary, job_id from hr.employees where salary >= 4000 or job_id='IT_PROG' 
+
+15. How can we see the first name, Salary, and job id of employees who earn more than 3000 and they work as stock clerks. 
+Also need to see returned data sorted by name
+select first_name, salary, job_id from hr.employees where salary > 3000 and job_id='ST_CLERK' order by first_name 
+
+16. How can we find all employees who do not work in Department 50 and are not stock clerks
+select * from hr.employees where not department_id=50 and not job_id='ST_CLERK' 
+
+17. How can we see all people whose job id belongs to Sales
+select * from hr.employees where job_id like 'SA%'
+
+18. How can we display all employees who work for Departments 50, 60, 80
+select * from hr.employees where department_id in (50, 60, 80)
+
+19. Verify everyone who was hired on June of 2002. Please display in ascending order by name
+select * from hr.employees where hire_date 
+    between TO_DATE('2002-06-01', 'YYYY-MM-DD') and TO_DATE('2002-06-30', 'YYYY-MM-DD')
+
+20. Display all employees whose last name ends with ‘a’
+select * from hr.employees where last_name like '%a'
+
+21. Verify all employees who got hired from 17 June 2003 to 05 February 2006
+select * from hr.employees where hire_date 
+    between TO_DATE('2003-06-17', 'YYYY-MM-DD') and TO_DATE('2006-02-05', 'YYYY-MM-DD')
+
+22. Verify all the employees who are programmers, clerks and hr.
+select * from hr.employees where job_id='IT_PROG' or job_id='HR_REP' or job_id like '%CLERK'
+
+23. Display all countries except Germany, Italy and Kuwait
+select * from hr.countries where country_name not in ('Germany', 'Italy', 'Kuwait')
+
+24. Display all department names that start with ‘C’ and don’t forget to sort results by department id in descending order
+select department_name from hr.departments where department_name like 'C%' order by department_id desc
+
+25. Display all employees’ first names in which the third letter of the name is “u”
+select first_name from hr.employees where first_name like '__u%'
+
+26. Display last name in uppercase, first name in lowercase and email in init capital
+select upper(last_name) as last_name, lower(first_name) as first_name, initcap(email) as email from hr.employees
+
+27. Verify how many employees don’t get the commission
+select count(*) from hr.employees where commission_pct is null
+
+28. Display maximum salary for each job ids
+select job_id, max(salary) as max_salary from hr.employees group by job_id
+
+29. Display the number of people, average salary, and max salary in each department
+select count(*) as employees_in_dep, round(avg(salary)) as avg_salary, max(salary) as max_salary 
+from hr.employees group by department_id
+
+30. How can we find how many IT Programmers work in the company
+select count(*) as it_programmers from hr.employees where job_id='IT_PROG'
+
+31. How many employees' first names start with A
+select count(*) as empl_starts_with_a from hr.employees where first_name like 'A%'
+
+32. Can you find the average salary in each department? Please sort results by the salary
+select department_id, round(avg(salary)) as avg_salary from hr.employees group by department_id order by avg_salary
+
+33. Display how many Sales Representative, Accountant and Stock managers are hired by the company
+select count(*) as sales_accountant_stock_employees from hr.employees 
+    where job_id like 'SA%' or job_id like '%ACCOUNT' or job_id like 'ST_%'
+
+34. How can you find out AVG salary for employees per departments where average salary is more than 6500
+select department_id, round(avg(salary)) as avg_salary from hr.employees group by department_id having round(avg(salary)) > 6500
+
+35. How can I see the number of employees that work in a department who's total number is more than 5 people
+select department_id, count(*) as employees from hr.employees group by department_id having count(*) > 5
+
+36. How can I see max salary for all job ids where max salary will be more that 4000
+select job_id, max(salary) as max_salary_gt_4000 from hr.employees group by job_id having max(salary) > 4000
+
+37. Please display the max highest salaries per job id on top
+select job_id, max(salary) as max_salary_gt_4000 from hr.employees 
+group by job_id having max(salary) > 4000 order by max_salary_gt_4000 desc
+
+38. How can I find out the average salary of people working for departments 80 through 120, 
+but I want to see only those departments where the average salary is between 8000 to 10000
+select department_id, avg_salary from 
+(
+    select department_id, round(avg(salary)) AS avg_salary from hr.employees
+    where department_id between 80 and 120 group by department_id
+) 
+where avg_salary between 8000 and 10000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
